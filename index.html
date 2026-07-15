@@ -262,6 +262,49 @@
     .point-text strong { display: block; font-size: 15px; margin-bottom: 2px; }
     .point-text span { font-size: 13px; color: var(--muted); }
 
+    /* ── GALLERY ── */
+    .gallery { padding: 80px 24px; background: var(--white); }
+    .gallery-header { max-width: 640px; margin: 0 auto; text-align: center; }
+    .gallery-header .section-label,
+    .gallery-header .section-title,
+    .gallery-header .section-sub { text-align: center; margin-left: auto; margin-right: auto; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 36px;
+      max-width: 1100px; margin: 56px auto 0;
+    }
+    .gallery-item { text-align: center; }
+    .gallery-item .phone-frame { max-width: 200px; margin: 0 auto 18px; }
+    .gallery-caption { font-size: 14px; font-weight: 700; color: var(--text); }
+    .gallery-caption-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    .mini-header { background: var(--green); padding: 14px 12px 10px; color: white; font-size: 12px; font-weight: 700; }
+    .mini-list { padding: 8px; display: flex; flex-direction: column; gap: 6px; flex: 1; overflow: hidden; }
+    .mini-card {
+      background: white; border: 1px solid var(--border); border-radius: 8px;
+      padding: 7px 8px; display: flex; align-items: center; gap: 7px;
+    }
+    .mini-avatar {
+      width: 20px; height: 20px; border-radius: 50%; background: var(--mint-light);
+      display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0;
+    }
+    .mini-card-title { font-size: 9px; font-weight: 700; color: var(--text); }
+    .mini-card-sub { font-size: 7px; color: var(--muted); margin-top: 1px; }
+    .mini-badge { margin-left: auto; font-size: 6px; font-weight: 700; padding: 2px 6px; border-radius: 10px; white-space: nowrap; }
+    .badge-buck { background: #E1F5EE; color: #0F6E56; }
+    .badge-nursing { background: #FAEEDA; color: #854F0B; }
+    .badge-pregnant { background: #E6F1FB; color: #185FA5; }
+    .badge-breeding { background: #E1F5EE; color: #0F6E56; }
+    .badge-pending { background: #FFF7D6; color: #854F0B; }
+
+    .mini-section-label { font-size: 6.5px; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; padding: 6px 8px 1px; }
+    .mini-report-row { display: flex; align-items: center; gap: 7px; padding: 6px 8px; background: white; border: 1px solid var(--border); border-radius: 8px; }
+    .mini-report-icon { font-size: 11px; flex-shrink: 0; }
+    .mini-report-title { font-size: 8px; font-weight: 700; color: var(--text); }
+    .mini-report-sub { font-size: 6px; color: var(--muted); margin-top: 1px; }
+    .mini-report-chevron { margin-left: auto; color: var(--muted); font-size: 9px; }
+
     /* ── PRICING ── */
     .pricing-grid {
       display: grid;
@@ -409,6 +452,7 @@
   </a>
   <div class="nav-links">
     <a href="#features">Features</a>
+    <a href="#gallery">Gallery</a>
     <a href="#pricing">Pricing</a>
     <a href="#about">About</a>
     <a href="privacy.html">Privacy</a>
@@ -586,6 +630,201 @@
     </div>
   </div>
 </div>
+
+<!-- SCREENSHOT GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header">
+    <div class="section-label">See it in action</div>
+    <h2 class="section-title">A screen for everything your rabbitry needs</h2>
+    <p class="section-sub">From your herd roster to breeding schedules to professional reports — every screen is built around real rabbitry workflows.</p>
+  </div>
+
+  <div class="gallery-grid">
+
+    <!-- Rabbits -->
+    <div class="gallery-item">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="mini-header">Rabbits</div>
+          <div class="mini-list">
+            <div class="mini-card">
+              <div class="mini-avatar">🐇</div>
+              <div>
+                <div class="mini-card-title">Abjega</div>
+                <div class="mini-card-sub">B25-0001 · Buck</div>
+              </div>
+              <div class="mini-badge badge-buck">Breeding</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-avatar">🐇</div>
+              <div>
+                <div class="mini-card-title">Sit Alnafar</div>
+                <div class="mini-card-sub">D25-0002 · Doe</div>
+              </div>
+              <div class="mini-badge badge-nursing">Nursing</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-avatar">🐇</div>
+              <div>
+                <div class="mini-card-title">Batool</div>
+                <div class="mini-card-sub">D26-0003 · Doe</div>
+              </div>
+              <div class="mini-badge badge-nursing">Nursing</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-avatar">🐇</div>
+              <div>
+                <div class="mini-card-title">Kandaka</div>
+                <div class="mini-card-sub">D26-0004 · Doe</div>
+              </div>
+              <div class="mini-badge badge-pregnant">Pregnant</div>
+            </div>
+          </div>
+          <div class="phone-nav">
+            <div class="phone-nav-item">🏠<br>Home</div>
+            <div class="phone-nav-item active">🐾<br>Rabbits</div>
+            <div class="phone-nav-item">🥚<br>Litters</div>
+            <div class="phone-nav-item">❤️<br>Breed</div>
+            <div class="phone-nav-item">✅<br>Tasks</div>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-caption">Your Herd</div>
+      <div class="gallery-caption-sub">Every rabbit, status and cage at a glance</div>
+    </div>
+
+    <!-- Litters -->
+    <div class="gallery-item">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="mini-header">Litters</div>
+          <div class="mini-list">
+            <div class="mini-card">
+              <div class="mini-avatar">🥚</div>
+              <div>
+                <div class="mini-card-title">L26-0001 · Sit Alnafar</div>
+                <div class="mini-card-sub">Born Jun 19 · 6 kits · wean Jul 31</div>
+              </div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-avatar">🥚</div>
+              <div>
+                <div class="mini-card-title">L26-0002 · Batool</div>
+                <div class="mini-card-sub">Born Jul 8 · 6 kits · wean Aug 19</div>
+              </div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-avatar">📈</div>
+              <div>
+                <div class="mini-card-title">Growth chart</div>
+                <div class="mini-card-sub">Kit weights tracked from birth to tattoo</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-nav">
+            <div class="phone-nav-item">🏠<br>Home</div>
+            <div class="phone-nav-item">🐾<br>Rabbits</div>
+            <div class="phone-nav-item active">🥚<br>Litters</div>
+            <div class="phone-nav-item">❤️<br>Breed</div>
+            <div class="phone-nav-item">✅<br>Tasks</div>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-caption">Litter Management</div>
+      <div class="gallery-caption-sub">Birth to wean, tracked automatically</div>
+    </div>
+
+    <!-- Breedings -->
+    <div class="gallery-item">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="mini-header">Breedings</div>
+          <div class="mini-list">
+            <div class="mini-card">
+              <div class="mini-avatar">❤️</div>
+              <div>
+                <div class="mini-card-title">BR-0004</div>
+                <div class="mini-card-sub">Sit Alnafar · kindling Aug 9</div>
+              </div>
+              <div class="mini-badge badge-pending">Pending</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-avatar">❤️</div>
+              <div>
+                <div class="mini-card-title">BR-0003</div>
+                <div class="mini-card-sub">Kandaka · nest box Jul 16</div>
+              </div>
+              <div class="mini-badge badge-pending">Pending</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-avatar">✅</div>
+              <div>
+                <div class="mini-card-title">Auto-scheduled tasks</div>
+                <div class="mini-card-sub">Pregnancy check, nest box & kindling dates</div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-nav">
+            <div class="phone-nav-item">🏠<br>Home</div>
+            <div class="phone-nav-item">🐾<br>Rabbits</div>
+            <div class="phone-nav-item">🥚<br>Litters</div>
+            <div class="phone-nav-item active">❤️<br>Breed</div>
+            <div class="phone-nav-item">✅<br>Tasks</div>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-caption">Breeding Tracker</div>
+      <div class="gallery-caption-sub">Dates calculated automatically from your breeding date</div>
+    </div>
+
+    <!-- Reports -->
+    <div class="gallery-item">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="mini-header">Reports</div>
+          <div class="mini-list" style="gap: 4px;">
+            <div class="mini-section-label">FINANCIAL</div>
+            <div class="mini-report-row">
+              <div class="mini-report-icon">💰</div>
+              <div>
+                <div class="mini-report-title">Monthly P&amp;L</div>
+                <div class="mini-report-sub">Income vs expenses</div>
+              </div>
+              <div class="mini-report-chevron">›</div>
+            </div>
+            <div class="mini-section-label">HERD</div>
+            <div class="mini-report-row">
+              <div class="mini-report-icon">🐾</div>
+              <div>
+                <div class="mini-report-title">Active roster</div>
+                <div class="mini-report-sub">All rabbits, status &amp; weight</div>
+              </div>
+              <div class="mini-report-chevron">›</div>
+            </div>
+            <div class="mini-report-row">
+              <div class="mini-report-icon">📄</div>
+              <div>
+                <div class="mini-report-title">Rabbit biography</div>
+                <div class="mini-report-sub">Buyer-ready PDF</div>
+              </div>
+              <div class="mini-report-chevron">›</div>
+            </div>
+          </div>
+          <div class="phone-nav">
+            <div class="phone-nav-item">🏠<br>Home</div>
+            <div class="phone-nav-item">🐾<br>Rabbits</div>
+            <div class="phone-nav-item">🥚<br>Litters</div>
+            <div class="phone-nav-item">❤️<br>Breed</div>
+            <div class="phone-nav-item active">✅<br>More</div>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-caption">Professional Reports</div>
+      <div class="gallery-caption-sub">9 report types, viewable in-app or exported as PDF</div>
+    </div>
+
+  </div>
+</section>
 
 <!-- PRICING -->
 <section class="section" id="pricing">
