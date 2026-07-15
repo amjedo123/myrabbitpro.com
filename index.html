@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RabbitPro — Professional Rabbitry Management</title>
+  <meta name="description" content="RabbitPro is the professional rabbitry management app for serious rabbit breeders. Track breedings, litters, health records, weights and more.">
+  <meta property="og:title" content="RabbitPro — Your Rabbitry in Your Pocket">
+  <meta property="og:description" content="Professional rabbitry management for serious breeders. Available on Android.">
+  <meta property="og:image" content="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #2E5339;
+      --green-dark: #1A3023;
+      --mint:       #9FE1CB;
+      --mint-light: #E1F5EE;
+      --bg:         #F4F7F5;
+      --white:      #FFFFFF;
+      --text:       #2C2C2A;
+      --muted:      #888780;
+      --border:     #E0E8E3;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-icon {
+      width: 36px; height: 36px;
+      background: var(--green);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .nav-name {
+      font-weight: 700; font-size: 18px;
+      color: var(--green);
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 14px; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green); }
+    .nav-cta {
+      background: var(--green); color: white;
+      padding: 8px 20px; border-radius: 8px;
+      text-decoration: none; font-size: 14px; font-weight: 600;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--green-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+      padding: 80px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239FE1CB' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(159,225,203,0.2);
+      border: 1px solid rgba(159,225,203,0.3);
+      color: var(--mint);
+      padding: 6px 16px; border-radius: 20px;
+      font-size: 13px; font-weight: 500;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800; color: white;
+      line-height: 1.1; margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--mint); }
+    .hero p {
+      font-size: 18px; color: rgba(255,255,255,0.75);
+      max-width: 560px; margin: 0 auto 40px;
+    }
+    .hero-buttons {
+      display: flex; gap: 12px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--mint); color: var(--green-dark);
+      padding: 14px 28px; border-radius: 12px;
+      text-decoration: none; font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; gap: 8px;
+      transition: transform 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 14px 28px; border-radius: 12px;
+      text-decoration: none; font-weight: 600; font-size: 15px;
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--mint-light);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      display: flex; justify-content: center; gap: 64px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-value {
+      font-size: 28px; font-weight: 800;
+      color: var(--green); display: block;
+    }
+    .stat-label { font-size: 13px; color: var(--muted); }
+
+    /* ── FEATURES ── */
+    .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      color: var(--green); text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800; color: var(--text);
+      margin-bottom: 16px; line-height: 1.2;
+    }
+    .section-sub {
+      font-size: 17px; color: var(--muted);
+      max-width: 560px; margin-bottom: 56px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(46,83,57,0.1);
+    }
+    .feature-icon {
+      width: 48px; height: 48px;
+      background: var(--mint-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .feature-title {
+      font-size: 17px; font-weight: 700;
+      margin-bottom: 8px; color: var(--text);
+    }
+    .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── PHONE MOCKUP ── */
+    .showcase {
+      background: var(--bg);
+      padding: 80px 24px;
+    }
+    .showcase-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+    }
+    .phone-frame {
+      background: var(--green-dark);
+      border-radius: 40px;
+      padding: 12px;
+      max-width: 280px; margin: 0 auto;
+      box-shadow: 0 32px 80px rgba(46,83,57,0.3);
+    }
+    .phone-screen {
+      background: var(--bg);
+      border-radius: 30px;
+      overflow: hidden;
+      aspect-ratio: 9/19.5;
+      display: flex; flex-direction: column;
+    }
+    .phone-header {
+      background: var(--green);
+      padding: 20px 16px 16px;
+    }
+    .phone-greeting { color: white; font-size: 14px; font-weight: 600; }
+    .phone-date { color: rgba(255,255,255,0.6); font-size: 10px; }
+    .phone-farm { color: rgba(255,255,255,0.4); font-size: 9px; }
+    .phone-alert {
+      margin: 10px;
+      background: #FFF7D6;
+      border: 1px solid #FAC775;
+      border-radius: 8px; padding: 8px 10px;
+      font-size: 10px; font-weight: 600; color: #854F0B;
+    }
+    .phone-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px; padding: 0 10px 10px;
+    }
+    .phone-card {
+      background: white; border-radius: 10px;
+      padding: 10px; border: 1px solid var(--border);
+    }
+    .phone-card-label { font-size: 8px; color: var(--muted); }
+    .phone-card-value {
+      font-size: 20px; font-weight: 700;
+      color: var(--green);
+    }
+    .phone-card-sub { font-size: 7px; color: var(--muted); }
+    .phone-nav {
+      margin-top: auto;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-around;
+      padding: 8px 0 4px;
+    }
+    .phone-nav-item { text-align: center; font-size: 7px; color: var(--muted); }
+    .phone-nav-item.active { color: var(--green); font-weight: 600; }
+    .showcase-text { }
+    .showcase-points { list-style: none; margin-top: 32px; }
+    .showcase-points li {
+      display: flex; gap: 12px; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .point-icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--mint-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0; margin-top: 2px;
+    }
+    .point-text strong { display: block; font-size: 15px; margin-bottom: 2px; }
+    .point-text span { font-size: 13px; color: var(--muted); }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .pricing-card {
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px 28px;
+      position: relative;
+    }
+    .pricing-card.featured {
+      border-color: var(--green);
+      background: var(--green);
+      color: white;
+    }
+    .pricing-badge {
+      position: absolute; top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--mint); color: var(--green-dark);
+      font-size: 11px; font-weight: 700;
+      padding: 3px 12px; border-radius: 20px;
+    }
+    .pricing-plan { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+    .pricing-card.featured .pricing-plan { color: rgba(255,255,255,0.7); }
+    .pricing-price { font-size: 36px; font-weight: 800; margin-bottom: 4px; }
+    .pricing-period { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+    .pricing-card.featured .pricing-period { color: rgba(255,255,255,0.6); }
+    .pricing-features { list-style: none; }
+    .pricing-features li {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; margin-bottom: 10px;
+    }
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--green); font-weight: 700; font-size: 13px;
+    }
+    .pricing-card.featured .pricing-features li::before { color: var(--mint); }
+    .pricing-btn {
+      display: block; text-align: center; margin-top: 28px;
+      padding: 12px; border-radius: 10px;
+      font-weight: 600; font-size: 14px;
+      text-decoration: none;
+      background: var(--mint-light); color: var(--green);
+      transition: background 0.2s;
+    }
+    .pricing-card.featured .pricing-btn {
+      background: var(--mint); color: var(--green-dark);
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; margin-top: 48px;
+    }
+    .testimonial {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+    }
+    .testimonial-text {
+      font-size: 15px; line-height: 1.7;
+      color: var(--text); margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .testimonial-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--green);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 16px;
+    }
+    .testimonial-name { font-weight: 600; font-size: 14px; }
+    .testimonial-role { font-size: 12px; color: var(--muted); }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+      padding: 80px 24px; text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800; color: white; margin-bottom: 16px;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.7); font-size: 17px;
+      max-width: 500px; margin: 0 auto 40px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-dark);
+      padding: 48px 24px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+    }
+    .footer-top {
+      display: flex; justify-content: space-between;
+      flex-wrap: wrap; gap: 40px; margin-bottom: 40px;
+    }
+    .footer-brand .brand-name {
+      font-size: 20px; font-weight: 700;
+      color: white; margin-bottom: 8px;
+    }
+    .footer-brand p { font-size: 13px; color: rgba(255,255,255,0.5); max-width: 240px; }
+    .footer-links h4 {
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,0.4); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 16px;
+    }
+    .footer-links a {
+      display: block; color: rgba(255,255,255,0.6);
+      text-decoration: none; font-size: 14px;
+      margin-bottom: 10px; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--mint); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.4); }
+    .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--mint); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .showcase-inner { grid-template-columns: 1fr; }
+      .stats-bar { gap: 32px; }
+      .footer-top { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-brand">
+    <div class="nav-icon">🐇</div>
+    <span class="nav-name">RabbitPro</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <a href="#download" class="nav-cta">Download Free</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🐇 Now available on Android</div>
+  <h1>Your rabbitry,<br><span>professionally managed</span></h1>
+  <p>RabbitPro brings professional-grade record keeping to rabbit breeders of all sizes. Track breedings, litters, health, weights and finances — all in one place.</p>
+  <div class="hero-buttons">
+    <a href="#download" class="btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.341l-4.8-2.77A.5.5 0 0112 12v-5.5a.5.5 0 011 0v5.23l4.5 2.598a.5.5 0 11-.5.866z" fill="none"/><path d="M3.18 6.69a3.5 3.5 0 014.64-1.3L12 7.87l4.18-2.48a3.5 3.5 0 014.64 1.3l.5.87a3.5 3.5 0 010 3.5l-.5.87a3.5 3.5 0 01-4.64 1.3L12 10.78l-4.18 2.49a3.5 3.5 0 01-4.64-1.3l-.5-.87a3.5 3.5 0 010-3.5l.5-.87z" fill="none"/><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2a8 8 0 110 16A8 8 0 0112 4zm-1 4v4.5l3.9 2.25-.75 1.3L10 13.5V8h1z"/></svg>
+      Download on Google Play
+    </a>
+    <a href="#features" class="btn-secondary">See features →</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-value">31</span>
+    <span class="stat-label">Day gestation tracking</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">9</span>
+    <span class="stat-label">PDF report types</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">100%</span>
+    <span class="stat-label">Your data, private</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">Free</span>
+    <span class="stat-label">Up to 10 rabbits</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything your rabbitry needs</h2>
+  <p class="section-sub">Built by a rabbit breeder, for rabbit breeders. Every feature comes from real experience managing a working rabbitry.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🐇</div>
+      <div class="feature-title">Complete rabbit profiles</div>
+      <div class="feature-desc">Track every rabbit with tattoo ID, DOB, breed, weight history, health records and photos. Generate professional pedigree certificates in one tap.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">❤️</div>
+      <div class="feature-title">Smart breeding tracker</div>
+      <div class="feature-desc">Record a breeding and RabbitPro automatically calculates pregnancy check, nest box installation, and kindling dates. Never miss a critical date again.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🥚</div>
+      <div class="feature-title">Litter management</div>
+      <div class="feature-desc">Track kits from birth to tattoo day. Log individual weights, monitor growth charts, and promote kits to permanent records at weaning with one tap.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✅</div>
+      <div class="feature-title">Automatic task reminders</div>
+      <div class="feature-desc">Tasks for pregnancy checks, nest boxes, weaning and tattooing are generated automatically from your breeding records. Your dashboard shows what needs attention today.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Financial tracking</div>
+      <div class="feature-desc">Track expenses by category, record sales, and generate monthly P&L reports. Know exactly what your rabbitry costs and earns.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <div class="feature-title">Professional PDF reports</div>
+      <div class="feature-desc">Generate pedigree certificates, rabbit biographies for buyers, health reports, breeding performance analysis, and financial summaries — all as shareable PDFs.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">☁️</div>
+      <div class="feature-title">Real-time sync</div>
+      <div class="feature-desc">Log a kindling on your phone in the barn and see it instantly on your office computer. Works across all your devices simultaneously.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Your data is private</div>
+      <div class="feature-desc">Each account is completely isolated. No one can see your rabbitry data — not other users, not advertisers. Your breeding records stay yours.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌿</div>
+      <div class="feature-title">Feed log</div>
+      <div class="feature-desc">Track daily feeding, feed types and amounts, and water checks. Build a complete record of your feeding program over time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<div class="showcase">
+  <div class="showcase-inner">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="phone-header">
+          <div class="phone-greeting">Good morning, Amjed! 🐇</div>
+          <div class="phone-date">Tuesday, July 14</div>
+          <div class="phone-farm">Nas Albeit Rabbitry</div>
+        </div>
+        <div class="phone-alert">⚠️ Install Nest Box · D26-0004 · Due in 2 days</div>
+        <div style="padding: 0 10px 8px; font-size: 8px; color: #888; font-weight: 600; letter-spacing: 0.05em;">OVERVIEW</div>
+        <div class="phone-grid">
+          <div class="phone-card">
+            <div class="phone-card-label">Total rabbits</div>
+            <div class="phone-card-value">5</div>
+            <div class="phone-card-sub">4 does · 1 buck</div>
+          </div>
+          <div class="phone-card">
+            <div class="phone-card-label">Pregnant does</div>
+            <div class="phone-card-value">1</div>
+            <div class="phone-card-sub">2 nursing</div>
+          </div>
+          <div class="phone-card">
+            <div class="phone-card-label">Pending tasks</div>
+            <div class="phone-card-value">8</div>
+            <div class="phone-card-sub">0 overdue</div>
+          </div>
+          <div class="phone-card">
+            <div class="phone-card-label">Litters this year</div>
+            <div class="phone-card-value">2</div>
+            <div class="phone-card-sub">recorded</div>
+          </div>
+        </div>
+        <div class="phone-nav">
+          <div class="phone-nav-item active">🏠<br>Home</div>
+          <div class="phone-nav-item">🐾<br>Rabbits</div>
+          <div class="phone-nav-item">🥚<br>Litters</div>
+          <div class="phone-nav-item">❤️<br>Breed</div>
+          <div class="phone-nav-item">✅<br>Tasks</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-text">
+      <div class="section-label">Dashboard</div>
+      <h2 class="section-title">Your rabbitry at a glance</h2>
+      <p style="color: var(--muted); font-size: 16px;">Open the app and instantly know what needs your attention today. Smart alerts surface critical tasks before they become problems.</p>
+      <ul class="showcase-points">
+        <li>
+          <div class="point-icon">🔔</div>
+          <div class="point-text">
+            <strong>Personalized greeting</strong>
+            <span>Good morning by name, with your farm name and today's date</span>
+          </div>
+        </li>
+        <li>
+          <div class="point-icon">⚠️</div>
+          <div class="point-text">
+            <strong>Smart alerts</strong>
+            <span>Tasks due in the next 3 days are highlighted automatically</span>
+          </div>
+        </li>
+        <li>
+          <div class="point-icon">📊</div>
+          <div class="point-text">
+            <strong>Live overview</strong>
+            <span>Rabbit count, breeding status, tasks and litters — always current</span>
+          </div>
+        </li>
+        <li>
+          <div class="point-icon">☁️</div>
+          <div class="point-text">
+            <strong>Multi-device sync</strong>
+            <span>Same live data on your phone, tablet and office computer</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title">Simple, fair pricing</h2>
+  <p class="section-sub">Start free and upgrade when your rabbitry grows. No hidden fees, no data selling, no ads.</p>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-plan">PERSONAL</div>
+      <div class="pricing-price">Free</div>
+      <div class="pricing-period">Forever, up to 10 rabbits</div>
+      <ul class="pricing-features">
+        <li>Up to 10 active rabbits</li>
+        <li>Breeding & litter tracking</li>
+        <li>Health records</li>
+        <li>Basic reports</li>
+        <li>Pedigree certificates</li>
+      </ul>
+      <a href="#download" class="pricing-btn">Get started free</a>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-plan">BREEDER</div>
+      <div class="pricing-price">$4.99</div>
+      <div class="pricing-period">per month</div>
+      <ul class="pricing-features">
+        <li>Unlimited rabbits</li>
+        <li>All Personal features</li>
+        <li>All 9 PDF report types</li>
+        <li>Financial tracking</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="#download" class="pricing-btn">Start free trial</a>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-plan">FARM</div>
+      <div class="pricing-price">$12.99</div>
+      <div class="pricing-period">per month</div>
+      <ul class="pricing-features">
+        <li>Up to 5 team members</li>
+        <li>All Breeder features</li>
+        <li>Activity audit log</li>
+        <li>Worker permissions</li>
+        <li>Priority support</li>
+      </ul>
+      <a href="#download" class="pricing-btn">Coming soon</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background: var(--bg); max-width: 100%; padding: 80px 24px;" id="about">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-label">From breeders</div>
+    <h2 class="section-title">Built from real experience</h2>
+    <p class="section-sub">RabbitPro was built by a breeder who was tired of spreadsheets and notebooks. Every feature solves a real problem.</p>
+
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="testimonial-text">"I used to track everything in a notebook. Missing a nest box date cost me a litter. RabbitPro sends me reminders before anything goes wrong."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div>
+            <div class="testimonial-name">Amjed Ibrahim</div>
+            <div class="testimonial-role">Nas Albeit Rabbitry · New Jersey</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-text">"The pedigree PDF is incredible. I hand it to buyers and they're impressed. It makes my rabbitry look professional and justifies my pricing."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div>
+            <div class="testimonial-name">Sarah M.</div>
+            <div class="testimonial-role">Show rabbit breeder · Virginia</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-text">"Finally an app that understands rabbit breeding. The kit weight tracking and growth charts help me spot the runt early and give it extra attention."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">J</div>
+          <div>
+            <div class="testimonial-name">James T.</div>
+            <div class="testimonial-role">Meat rabbit operation · Texas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="download">
+  <h2>Start managing your rabbitry today</h2>
+  <p>Free for up to 10 rabbits. No credit card required. Download in seconds.</p>
+  <div class="hero-buttons">
+    <a href="https://play.google.com/store/apps/details?id=com.example.rabbitpro" class="btn-primary">
+      📱 Download on Google Play
+    </a>
+    <a href="mailto:support@myrabbitpro.com" class="btn-secondary">Contact us</a>
+  </div>
+  <p style="margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.4);">
+    iOS version coming soon · Web app available at app.myrabbitpro.com
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="brand-name">🐇 RabbitPro</div>
+        <p>Professional rabbitry management for serious breeders. Built by a breeder, for breeders.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#download">Download</a>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <a href="mailto:support@myrabbitpro.com">Email support</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="terms.html">Terms of service</a>
+      </div>
+      <div class="footer-links">
+        <h4>Connect</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 RabbitPro · NAS Albeit Rabbitry · All rights reserved</p>
+      <p><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:support@myrabbitpro.com">support@myrabbitpro.com</a></p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
