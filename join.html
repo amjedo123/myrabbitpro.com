@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Early Access — RabbitPro</title>
+  <meta name="description" content="RabbitPro is opening a limited number of early access spots to rabbit breeders before official launch. Sign up in a minute.">
+  <meta property="og:title" content="RabbitPro — Early Access">
+  <meta property="og:description" content="Help shape RabbitPro before launch. Free early access for rabbit breeders on Android.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #2E5339;
+      --green-dark: #1A3023;
+      --mint:       #9FE1CB;
+      --mint-light: #E1F5EE;
+      --bg:         #F4F7F5;
+      --white:      #FFFFFF;
+      --text:       #2C2C2A;
+      --muted:      #888780;
+      --border:     #E0E8E3;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-icon {
+      width: 36px; height: 36px; background: var(--green); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .nav-name { font-weight: 700; font-size: 18px; color: var(--green); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--green); }
+    .nav-cta {
+      background: var(--green); color: white; padding: 8px 20px; border-radius: 8px;
+      text-decoration: none; font-size: 14px; font-weight: 600; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--green-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+      padding: 80px 24px 64px; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239FE1CB' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      display: inline-block; background: rgba(159,225,203,0.2);
+      border: 1px solid rgba(159,225,203,0.3); color: var(--mint);
+      padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; margin-bottom: 24px;
+    }
+    .hero h1 { font-size: clamp(30px, 5vw, 48px); font-weight: 800; color: white; line-height: 1.15; margin-bottom: 18px; }
+    .hero h1 span { color: var(--mint); }
+    .hero p { font-size: 17px; color: rgba(255,255,255,0.75); max-width: 520px; margin: 0 auto; }
+
+    /* ── WHY SIGN UP ── */
+    .why-strip {
+      background: var(--mint-light); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 28px 24px; display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; text-align: center;
+    }
+    .why-item { max-width: 220px; }
+    .why-item .why-icon { font-size: 20px; margin-bottom: 6px; }
+    .why-item strong { display: block; font-size: 14px; color: var(--green); margin-bottom: 2px; }
+    .why-item span { font-size: 12.5px; color: var(--muted); }
+
+    /* ── FORM SECTION ── */
+    .join-wrap { max-width: 640px; margin: 56px auto 80px; padding: 0 24px; }
+    .join-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 20px;
+      padding: 8px; overflow: hidden;
+    }
+    .join-card iframe { width: 100%; border: none; border-radius: 14px; display: block; }
+    .join-fallback { text-align: center; margin-top: 18px; font-size: 13px; color: var(--muted); }
+    .join-fallback a { color: var(--green); font-weight: 600; text-decoration: none; }
+    .join-fallback a:hover { text-decoration: underline; }
+    .join-note {
+      text-align: center; margin-top: 28px; font-size: 13px; color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer { background: var(--green-dark); padding: 48px 24px 24px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
+    .footer-brand .brand-name { font-size: 20px; font-weight: 700; color: white; margin-bottom: 8px; }
+    .footer-brand p { font-size: 13px; color: rgba(255,255,255,0.5); max-width: 240px; }
+    .footer-links h4 {
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.4);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px;
+    }
+    .footer-links a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--mint); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.4); }
+    .footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--mint); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .footer-top { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-brand">
+    <div class="nav-icon">🐇</div>
+    <span class="nav-name">RabbitPro</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="index.html#about">About</a>
+    <a href="privacy.html">Privacy</a>
+  </div>
+  <a href="index.html#download" class="nav-cta">Home</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🕐 Limited early access</div>
+  <h1>Help shape RabbitPro<br><span>before everyone else</span></h1>
+  <p>We're opening a small number of early access spots to rabbit breeders before the official launch. Free while you're testing, and your feedback genuinely shapes what gets built next.</p>
+</section>
+
+<!-- WHY -->
+<div class="why-strip">
+  <div class="why-item">
+    <div class="why-icon">🆓</div>
+    <strong>Free early access</strong>
+    <span>Full app, no cost, while we're testing</span>
+  </div>
+  <div class="why-item">
+    <div class="why-icon">💬</div>
+    <strong>Direct line to the developer</strong>
+    <span>Your feedback shapes what ships next</span>
+  </div>
+  <div class="why-item">
+    <div class="why-icon">🐇</div>
+    <strong>Built for breeders</strong>
+    <span>By a breeder, for real rabbitry workflows</span>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="join-wrap">
+  <div class="join-card">
+    <!--
+      TODO (Amjed): once you've built the Google Form, go to
+      Send → the "<>" embed icon → copy the src URL from the <iframe> tag
+      Google gives you, and paste it in place of the src below.
+      It will look like:
+      https://docs.google.com/forms/d/e/1FAIpQL.../viewform?embedded=true
+    -->
+    <iframe
+      src="https://docs.google.com/forms/d/e/REPLACE_WITH_YOUR_FORM_ID/viewform?embedded=true"
+      height="1250" title="RabbitPro Early Access Signup">
+      Loading…
+    </iframe>
+  </div>
+  <p class="join-fallback">
+    Form not loading?
+    <!-- TODO: also update this fallback link to your real form URL -->
+    <a href="https://forms.gle/REPLACE_WITH_YOUR_FORM_LINK" target="_blank" rel="noopener">Open it in a new tab</a> instead.
+  </p>
+  <p class="join-note">Android only for now — iOS is planned for a future release.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="brand-name">🐇 RabbitPro</div>
+        <p>Professional rabbitry management for serious breeders. Built by a breeder, for breeders.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Product</h4>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="index.html#download">Download</a>
+      </div>
+      <div class="footer-links">
+        <h4>Support</h4>
+        <a href="mailto:support@myrabbitpro.com">Email support</a>
+        <a href="privacy.html">Privacy policy</a>
+      </div>
+      <div class="footer-links">
+        <h4>Connect</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 RabbitPro · NAS Albeit Rabbitry · All rights reserved</p>
+      <p><a href="privacy.html">Privacy</a> · <a href="mailto:support@myrabbitpro.com">support@myrabbitpro.com</a></p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
