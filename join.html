@@ -87,15 +87,31 @@
     .why-item span { font-size: 12.5px; color: var(--muted); }
 
     /* ── FORM SECTION ── */
-    .join-wrap { max-width: 640px; margin: 56px auto 80px; padding: 0 24px; }
+    .join-wrap { max-width: 480px; margin: 56px auto 80px; padding: 0 24px; }
     .join-card {
       background: var(--bg); border: 1px solid var(--border); border-radius: 20px;
-      padding: 8px; overflow: hidden;
+      padding: 32px; display: flex; flex-direction: column; gap: 14px;
     }
-    .join-card iframe { width: 100%; border: none; border-radius: 14px; display: block; }
-    .join-fallback { text-align: center; margin-top: 18px; font-size: 13px; color: var(--muted); }
-    .join-fallback a { color: var(--green); font-weight: 600; text-decoration: none; }
-    .join-fallback a:hover { text-decoration: underline; }
+    .join-input {
+      width: 100%; padding: 16px 18px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--white); font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text);
+    }
+    .join-input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(46,83,57,0.14); }
+    .join-input::placeholder { color: var(--muted); }
+    .join-submit {
+      width: 100%; padding: 16px; border: none; border-radius: 12px; background: var(--green); color: white;
+      font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.2s;
+    }
+    .join-submit:hover { background: var(--green-dark); }
+    .join-hint { font-size: 12.5px; color: var(--muted); margin: -6px 0 2px 2px; }
+    .join-error { color: #B3452C; font-size: 13px; text-align: center; display: none; }
+    .join-thanks {
+      background: var(--mint-light); border: 1px solid var(--border); border-radius: 20px;
+      padding: 44px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .join-thanks-icon { font-size: 32px; margin-bottom: 6px; }
+    .join-thanks strong { font-size: 18px; color: var(--green); }
+    .join-thanks span { font-size: 14px; color: var(--muted); max-width: 320px; }
     .join-note {
       text-align: center; margin-top: 28px; font-size: 13px; color: var(--muted);
     }
@@ -136,12 +152,12 @@
     <span class="nav-name">RabbitPro</span>
   </a>
   <div class="nav-links">
-    <a href="index.html#features">Features</a>
-    <a href="index.html#pricing">Pricing</a>
-    <a href="index.html#about">About</a>
-    <a href="privacy.html">Privacy</a>
+    <a href="/index.html#features">Features</a>
+    <a href="/index.html#pricing">Pricing</a>
+    <a href="/index.html#about">About</a>
+    <a href="/privacy.html">Privacy</a>
   </div>
-  <a href="index.html#download" class="nav-cta">Home</a>
+  <a href="/index.html#download" class="nav-cta">Home</a>
 </nav>
 
 <!-- HERO -->
@@ -172,19 +188,45 @@
 
 <!-- FORM -->
 <div class="join-wrap">
-  <div class="join-card">
-    <iframe
-      src="https://docs.google.com/forms/d/e/1FAIpQLScfkB5h6JnhYJ-GWxOkAGIxqjkQ8GoBUgIEwyYKlmhpe2wJ6g/viewform?embedded=true"
-      height="1250" title="RabbitPro Early Access Signup">
-      Loading…
-    </iframe>
+  <form class="join-card" id="joinForm"
+        action="https://docs.google.com/forms/d/e/1FAIpQLScfkB5h6JnhYJ-GWxOkAGIxqjkQ8GoBUgIEwyYKlmhpe2wJ6g/formResponse"
+        method="POST" target="hidden_iframe">
+    <input class="join-input" type="text" name="entry.1087447171" placeholder="Your name" autocomplete="name" required>
+    <input class="join-input" type="email" name="entry.1355419046" placeholder="Your email" autocomplete="email" required>
+    <span class="join-hint">Use the email linked to your Google Play account (usually your Gmail) — that's what we'll invite as a tester.</span>
+    <button class="join-submit" type="submit">Get Early Access</button>
+    <span class="join-error" id="joinError">Something went wrong — please try again, or email support@myrabbitpro.com</span>
+  </form>
+
+  <div class="join-thanks" id="joinThanks" hidden>
+    <div class="join-thanks-icon">🐇</div>
+    <strong>You're on the list!</strong>
+    <span>Thanks for signing up — we'll be in touch soon with your early access invite.</span>
   </div>
-  <p class="join-fallback">
-    Form not loading?
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLScfkB5h6JnhYJ-GWxOkAGIxqjkQ8GoBUgIEwyYKlmhpe2wJ6g/viewform" target="_blank" rel="noopener">Open it in a new tab</a> instead.
-  </p>
+
+  <iframe name="hidden_iframe" id="hiddenIframe" style="display:none" title="submission target"></iframe>
   <p class="join-note">Android only for now — iOS is planned for a future release.</p>
 </div>
+
+<script>
+  (function () {
+    var form = document.getElementById('joinForm');
+    var thanks = document.getElementById('joinThanks');
+    var errorMsg = document.getElementById('joinError');
+    var submitted = false;
+
+    form.addEventListener('submit', function () {
+      submitted = true;
+      errorMsg.style.display = 'none';
+    });
+
+    document.getElementById('hiddenIframe').addEventListener('load', function () {
+      if (!submitted) return; // ignore the initial blank iframe load
+      form.hidden = true;
+      thanks.hidden = false;
+    });
+  })();
+</script>
 
 <!-- FOOTER -->
 <footer>
@@ -196,14 +238,14 @@
       </div>
       <div class="footer-links">
         <h4>Product</h4>
-        <a href="index.html#features">Features</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="index.html#download">Download</a>
+        <a href="/index.html#features">Features</a>
+        <a href="/index.html#pricing">Pricing</a>
+        <a href="/index.html#download">Download</a>
       </div>
       <div class="footer-links">
         <h4>Support</h4>
         <a href="mailto:support@myrabbitpro.com">Email support</a>
-        <a href="privacy.html">Privacy policy</a>
+        <a href="/privacy.html">Privacy policy</a>
       </div>
       <div class="footer-links">
         <h4>Connect</h4>
@@ -214,7 +256,7 @@
     </div>
     <div class="footer-bottom">
       <p>© 2026 RabbitPro · NAS Albeit Rabbitry · All rights reserved</p>
-      <p><a href="privacy.html">Privacy</a> · <a href="mailto:support@myrabbitpro.com">support@myrabbitpro.com</a></p>
+      <p><a href="/privacy.html">Privacy</a> · <a href="mailto:support@myrabbitpro.com">support@myrabbitpro.com</a></p>
     </div>
   </div>
 </footer>
