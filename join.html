@@ -107,7 +107,8 @@
     .join-error { color: #B3452C; font-size: 13px; text-align: center; display: none; }
     .join-thanks {
       background: var(--mint-light); border: 1px solid var(--border); border-radius: 20px;
-      padding: 44px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 44px 24px; text-align: center; flex-direction: column; align-items: center; gap: 6px;
+      display: none; /* shown via inline style: display:flex, once the user actually submits */
     }
     .join-thanks-icon { font-size: 32px; margin-bottom: 6px; }
     .join-thanks strong { font-size: 18px; color: var(--green); }
@@ -198,7 +199,7 @@
     <span class="join-error" id="joinError">Something went wrong — please try again, or email support@myrabbitpro.com</span>
   </form>
 
-  <div class="join-thanks" id="joinThanks" hidden>
+  <div class="join-thanks" id="joinThanks">
     <div class="join-thanks-icon">🐇</div>
     <strong>You're on the list!</strong>
     <span>Thanks for signing up — we'll be in touch soon with your early access invite.</span>
@@ -206,6 +207,9 @@
 
   <iframe name="hidden_iframe" id="hiddenIframe" style="display:none" title="submission target"></iframe>
   <p class="join-note">Android only for now — iOS is planned for a future release.</p>
+  <p class="join-fallback" style="text-align:center;margin-top:14px;font-size:12.5px;color:var(--muted);">
+    Trouble joining? <a href="https://docs.google.com/forms/d/e/1FAIpQLScfkB5h6JnhYJ-GWxOkAGIxqjkQ8GoBUgIEwyYKlmhpe2wJ6g/viewform" target="_blank" rel="noopener" style="color:var(--green);font-weight:600;">Open the full form instead</a>.
+  </p>
 </div>
 
 <script>
@@ -213,17 +217,17 @@
     var form = document.getElementById('joinForm');
     var thanks = document.getElementById('joinThanks');
     var errorMsg = document.getElementById('joinError');
-    var submitted = false;
 
     form.addEventListener('submit', function () {
-      submitted = true;
       errorMsg.style.display = 'none';
-    });
-
-    document.getElementById('hiddenIframe').addEventListener('load', function () {
-      if (!submitted) return; // ignore the initial blank iframe load
-      form.hidden = true;
-      thanks.hidden = false;
+      // Cross-origin POST into a hidden iframe can't reliably report success/failure back
+      // to this page (the browser blocks reading the response). We optimistically show the
+      // confirmation shortly after submitting, which is the standard approach for this
+      // technique — the fallback link above covers anyone who hits a real failure.
+      setTimeout(function () {
+        form.style.display = 'none';
+        thanks.style.display = 'flex';
+      }, 700);
     });
   })();
 </script>
