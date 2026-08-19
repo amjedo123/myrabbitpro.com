@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RabbitPro — Rabbit Listing</title>
+<meta name="description" content="A rabbit listing shared from RabbitPro, the professional rabbitry management app.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green:      #2E5339;
+    --green-dark: #1A3023;
+    --mint:       #9FE1CB;
+    --mint-light: #E1F5EE;
+    --bg:         #F4F7F5;
+    --white:      #FFFFFF;
+    --text:       #2C2C2A;
+    --muted:      #888780;
+    --border:     #E0E8E3;
+    --orange:     #F2994A;
+  }
+  body { font-family:'Inter',sans-serif; background:var(--white); color:var(--text); line-height:1.6; }
+
+  nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px);
+        border-bottom:1px solid var(--border); padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .nav-brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .nav-icon { width:36px; height:36px; background:var(--green); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .nav-name { font-weight:700; font-size:18px; color:var(--green); }
+  .nav-cta { background:var(--green); color:white; padding:8px 20px; border-radius:8px; text-decoration:none; font-size:14px; font-weight:600; }
+
+  .wrap { max-width:760px; margin:0 auto; padding:40px 24px 90px; }
+
+  .badge-row { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .badge { display:inline-flex; align-items:center; gap:6px; background:var(--mint-light); color:var(--green); font-size:12.5px; font-weight:700;
+           padding:6px 13px; border-radius:20px; }
+  .badge.status-available { background:#FDEEDD; color:#B96A1F; }
+  .badge.status-closed { background:#EDEDEA; color:var(--muted); }
+
+  .closed-banner { display:flex; align-items:flex-start; gap:14px; background:#F3F1EC; border:1px solid var(--border); border-radius:14px; padding:16px 18px; margin-bottom:24px; }
+  .closed-icon { font-size:20px; }
+  .closed-banner strong { display:block; font-size:14.5px; color:var(--text); margin-bottom:3px; }
+  .closed-banner span { font-size:13px; color:var(--muted); }
+
+  .title { font-size:32px; font-weight:800; color:var(--green-dark); line-height:1.2; margin-bottom:8px; }
+  .meta-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; color:var(--muted); font-size:14.5px; margin-bottom:28px; }
+  .meta-row .meta-item { display:flex; align-items:center; gap:6px; }
+
+  .hero-photo { width:100%; height:280px; border-radius:18px; background:linear-gradient(135deg, var(--mint-light), var(--bg));
+                display:flex; align-items:center; justify-content:center; font-size:80px; margin-bottom:28px; border:1px solid var(--border); }
+  .hero-photo.closed { filter:grayscale(1); opacity:0.55; }
+
+  .facts-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:24px 26px; margin-bottom:28px; }
+  .facts-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px 28px; }
+  .fact-label { font-size:11.5px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+  .fact-value { font-size:16px; font-weight:700; color:var(--text); }
+  .fact-value.price { color:var(--green); }
+
+  .section-title { font-size:19px; font-weight:800; color:var(--green-dark); margin-bottom:14px; }
+
+  .verified-row { display:flex; align-items:center; gap:12px; background:var(--mint-light); border-radius:14px; padding:16px 18px; margin-bottom:28px; }
+  .verified-icon { font-size:22px; }
+  .verified-text strong { color:var(--green); font-size:14.5px; }
+  .verified-text span { display:block; font-size:12.5px; color:var(--muted); margin-top:2px; }
+
+  .ped-mini { display:flex; flex-direction:column; gap:8px; margin-bottom:28px; }
+  .ped-row { display:flex; gap:10px; align-items:center; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:12px 16px; }
+  .ped-tag { font-size:11px; font-weight:700; color:var(--muted); width:44px; flex-shrink:0; }
+  .ped-name { font-size:14.5px; font-weight:700; }
+  .ped-sub { font-size:12.5px; color:var(--muted); }
+
+  .breeder-row { display:flex; align-items:center; gap:14px; padding:18px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:28px; }
+  .breeder-avatar { width:46px; height:46px; border-radius:23px; background:var(--green); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px; flex-shrink:0; }
+  .breeder-name { font-size:14.5px; font-weight:700; }
+  .breeder-sub { font-size:12.5px; color:var(--muted); }
+
+  .notify-card { background:var(--bg); border:1px solid var(--border); border-radius:20px; padding:30px; text-align:center; }
+  .notify-card.closed { background:#F3F1EC; }
+  .notify-card.closed h3 { color:var(--muted); }
+  .notify-card h3 { font-size:20px; font-weight:800; color:var(--green-dark); margin-bottom:6px; }
+  .notify-card p { font-size:14px; color:var(--muted); margin-bottom:20px; max-width:420px; margin-left:auto; margin-right:auto; }
+  .notify-form { display:flex; flex-direction:column; gap:12px; max-width:360px; margin:0 auto; }
+  .notify-input { width:100%; padding:14px 16px; border-radius:12px; border:1px solid var(--border); background:var(--white); font-family:'Inter',sans-serif; font-size:15px; }
+  .notify-submit { width:100%; padding:14px; border:none; border-radius:12px; background:var(--orange); color:var(--green-dark); font-weight:800; font-size:15px; cursor:pointer; }
+  .notify-submit:disabled { opacity:0.6; cursor:default; }
+  .notify-why { font-size:11.5px; color:var(--muted); margin-top:14px; max-width:340px; margin-left:auto; margin-right:auto; }
+  .notify-error { font-size:12.5px; color:#B02020; margin-top:10px; }
+  .closed-cta { display:inline-block; text-decoration:none; max-width:260px; margin:0 auto; }
+
+  .disclaimer { text-align:center; font-size:12px; color:var(--muted); margin-top:24px; max-width:480px; margin-left:auto; margin-right:auto; }
+  .disclaimer a { color:var(--green); }
+
+  .state-msg { text-align:center; padding:80px 24px; color:var(--muted); }
+  .state-msg .emoji { font-size:40px; margin-bottom:14px; }
+  .state-msg h2 { font-size:20px; color:var(--green-dark); margin-bottom:8px; }
+  #listing-content { display:none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-icon">🐇</div>
+    <span class="nav-name">RabbitPro</span>
+  </a>
+  <a href="join.html" class="nav-cta">Get the app</a>
+</nav>
+
+<div class="wrap">
+
+  <div id="loading-state" class="state-msg">
+    <div class="emoji">🐇</div>
+    <h2>Loading listing…</h2>
+  </div>
+
+  <div id="not-found-state" class="state-msg" style="display:none">
+    <div class="emoji">🔍</div>
+    <h2>We couldn't find that listing</h2>
+    <p>The link may be outdated, or the breeder may have removed it. <a href="index.html">Visit RabbitPro →</a></p>
+  </div>
+
+  <div id="listing-content">
+    <div class="badge-row">
+      <span id="status-badge" class="badge status-available">🐰 Available</span>
+      <span class="badge">📋 Verified record</span>
+    </div>
+
+    <div id="closed-banner" class="closed-banner" style="display:none">
+      <span class="closed-icon">🔒</span>
+      <div>
+        <strong>This listing is no longer available.</strong>
+        <span id="closed-detail">The breeder may have a new listing coming soon — check back or reach out directly below.</span>
+      </div>
+    </div>
+
+    <div id="title" class="title">—</div>
+    <div class="meta-row">
+      <span id="meta-location" class="meta-item"></span>
+      <span id="meta-age" class="meta-item"></span>
+      <span id="meta-breed" class="meta-item"></span>
+    </div>
+
+    <div id="hero-photo" class="hero-photo">🐇</div>
+
+    <div class="facts-card">
+      <div class="facts-grid">
+        <div>
+          <div class="fact-label">Breed</div>
+          <div id="fact-breed" class="fact-value">—</div>
+        </div>
+        <div>
+          <div class="fact-label">Color</div>
+          <div id="fact-color" class="fact-value">—</div>
+        </div>
+        <div>
+          <div class="fact-label">Sex</div>
+          <div id="fact-sex" class="fact-value">—</div>
+        </div>
+        <div>
+          <div class="fact-label" id="fact-price-label">Price</div>
+          <div id="fact-price" class="fact-value price">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="verified-row">
+      <div class="verified-icon">✅</div>
+      <div class="verified-text">
+        <strong>Verified rabbitry record</strong>
+        <span>Breed, color, and parentage are pulled directly from the breeder's RabbitPro records — not typed in by hand.</span>
+      </div>
+    </div>
+
+    <div id="pedigree-section" style="display:none">
+      <div class="section-title">Parentage</div>
+      <div class="ped-mini">
+        <div id="ped-dam" class="ped-row" style="display:none">
+          <div class="ped-tag">DAM</div>
+          <div>
+            <div id="ped-dam-name" class="ped-name">—</div>
+            <div id="ped-dam-breed" class="ped-sub">—</div>
+          </div>
+        </div>
+        <div id="ped-sire" class="ped-row" style="display:none">
+          <div class="ped-tag">SIRE</div>
+          <div>
+            <div id="ped-sire-name" class="ped-name">—</div>
+            <div id="ped-sire-breed" class="ped-sub">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="notes-section" style="display:none; margin-bottom:28px;">
+      <div class="section-title">Notes from the breeder</div>
+      <p id="notes-text" style="color:var(--text); font-size:14.5px;"></p>
+    </div>
+
+    <div class="breeder-row">
+      <div id="breeder-avatar" class="breeder-avatar">?</div>
+      <div>
+        <div id="breeder-name" class="breeder-name">—</div>
+        <div id="breeder-sub" class="breeder-sub">—</div>
+      </div>
+    </div>
+
+    <div id="notify-card" class="notify-card">
+      <h3 id="notify-title">Interested in this rabbit?</h3>
+      <p id="notify-copy">Send the breeder your info and they'll reach out directly — RabbitPro just passes the message along.</p>
+      <form id="notify-form" class="notify-form">
+        <input class="notify-input" type="text" id="buyer-name" placeholder="Your name" required>
+        <input class="notify-input" type="text" id="buyer-location" placeholder="Your city & state (e.g. Trenton, NJ)" required>
+        <input class="notify-input" type="text" id="buyer-contact" placeholder="Email or phone" required>
+        <button class="notify-submit" type="submit" id="notify-submit-btn">Notify the Breeder</button>
+        <div id="notify-error" class="notify-error" style="display:none"></div>
+      </form>
+      <div id="notify-success" style="display:none">
+        <p style="color:var(--green); font-weight:600; margin-bottom:0;">✅ Sent! The breeder will reach out directly.</p>
+      </div>
+      <p id="notify-why" class="notify-why">Why we ask for location: so the breeder can tell at a glance whether pickup or shipping is realistic — it's not shared publicly.</p>
+    </div>
+
+    <div class="disclaimer">
+      This listing is provided by the breeder using RabbitPro. RabbitPro shows the breeder's own records and passes along your message — we're not a party to the sale, and don't handle payment, shipping, or guarantees.
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+  import {
+    getFirestore, doc, getDoc, collection, addDoc, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+  // Same public web config used by the RabbitPro app's web build — Firebase
+  // API keys are not secrets; access is enforced by Firestore security
+  // rules (see firestore.rules: publicListings is read-only to anyone,
+  // writable only by the owning app user; waitlistSubmissions accepts
+  // public creates but no reads).
+  const firebaseConfig = {
+    apiKey: "AIzaSyAdhSfUuXLvH9IJbAhySfAN6DflkTYZDz0",
+    appId: "1:228688453387:web:50399f6c183919a2bb0c0e",
+    messagingSenderId: "228688453387",
+    projectId: "rabbitpro-2c06a",
+    authDomain: "rabbitpro-2c06a.firebaseapp.com",
+    storageBucket: "rabbitpro-2c06a.firebasestorage.app",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const params = new URLSearchParams(window.location.search);
+  const listingId = params.get('id');
+
+  const $ = (id) => document.getElementById(id);
+
+  function fmtDate(ts) {
+    if (!ts) return null;
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function ageFromDob(ts) {
+    if (!ts) return null;
+    const dob = ts.toDate ? ts.toDate() : new Date(ts);
+    const days = Math.floor((Date.now() - dob.getTime()) / 86400000);
+    if (days < 60) return `${days} days old`;
+    const months = Math.round(days / 30.44);
+    return `${months} mo old`;
+  }
+
+  async function loadListing() {
+    if (!listingId) return showNotFound();
+    let snap;
+    try {
+      snap = await getDoc(doc(db, 'publicListings', listingId));
+    } catch (e) {
+      console.error('Failed to load listing', e);
+      return showNotFound();
+    }
+    if (!snap.exists()) return showNotFound();
+    renderListing(listingId, snap.data());
+  }
+
+  function showNotFound() {
+    $('loading-state').style.display = 'none';
+    $('not-found-state').style.display = 'block';
+  }
+
+  function renderListing(id, d) {
+    $('loading-state').style.display = 'none';
+    $('listing-content').style.display = 'block';
+
+    const expiresAt = d.expiresAt ? (d.expiresAt.toDate ? d.expiresAt.toDate() : new Date(d.expiresAt)) : null;
+    const expired = expiresAt ? expiresAt.getTime() < Date.now() : false;
+
+    $('title').textContent = `${d.name || 'Rabbit'} — ${d.breed || ''}`.trim();
+    $('meta-age').textContent = ageFromDob(d.dob) || '';
+    $('meta-breed').textContent = `🐇 ${d.breed || ''}`;
+    $('meta-location').textContent = d.breederLocation ? `📍 ${d.breederLocation}` : '';
+
+    $('fact-breed').textContent = d.breed || '—';
+    $('fact-color').textContent = d.color || '—';
+    $('fact-sex').textContent = d.sex || '—';
+    if (d.price != null) {
+      $('fact-price').textContent = `$${Number(d.price).toFixed(0)}`;
+    } else {
+      $('fact-price-label').textContent = 'Price';
+      $('fact-price').textContent = 'Contact breeder';
+    }
+
+    if (d.sireName) {
+      $('pedigree-section').style.display = 'block';
+      $('ped-sire').style.display = 'flex';
+      $('ped-sire-name').textContent = d.sireName;
+      $('ped-sire-breed').textContent = d.sireBreed || '';
+    }
+    if (d.damName) {
+      $('pedigree-section').style.display = 'block';
+      $('ped-dam').style.display = 'flex';
+      $('ped-dam-name').textContent = d.damName;
+      $('ped-dam-breed').textContent = d.damBreed || '';
+    }
+
+    if (d.notes) {
+      $('notes-section').style.display = 'block';
+      $('notes-text').textContent = d.notes;
+    }
+
+    const breederName = d.breederName || 'A RabbitPro breeder';
+    $('breeder-name').textContent = breederName;
+    $('breeder-sub').textContent = [d.breederLocation, 'Tracking herd on RabbitPro'].filter(Boolean).join(' · ');
+    $('breeder-avatar').textContent = breederName.trim().charAt(0).toUpperCase() || '?';
+
+    if (expired) {
+      $('status-badge').textContent = '🔒 Listing closed';
+      $('status-badge').className = 'badge status-closed';
+      $('closed-banner').style.display = 'flex';
+      $('closed-detail').textContent = expiresAt
+        ? `This listing closed on ${fmtDate(d.expiresAt)}. The breeder may have a new listing coming soon — check back or reach out directly below.`
+        : 'The breeder may have a new listing coming soon — check back or reach out directly below.';
+      $('hero-photo').classList.add('closed');
+      $('notify-card').classList.add('closed');
+      $('notify-title').textContent = "This listing's waitlist is closed";
+      $('notify-copy').textContent = `This specific listing isn't taking new interest anymore. If you'd still like to reach ${breederName}, you're welcome to get in touch directly.`;
+      $('notify-form').style.display = 'none';
+      $('notify-why').style.display = 'none';
+    } else {
+      wireForm(id);
+    }
+  }
+
+  function wireForm(listingId) {
+    const form = $('notify-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('buyer-name').value.trim();
+      const location = $('buyer-location').value.trim();
+      const contact = $('buyer-contact').value.trim();
+      $('notify-error').style.display = 'none';
+      if (!name || !location || !contact) {
+        $('notify-error').textContent = 'Please fill in all three fields.';
+        $('notify-error').style.display = 'block';
+        return;
+      }
+      $('notify-submit-btn').disabled = true;
+      $('notify-submit-btn').textContent = 'Sending…';
+      try {
+        await addDoc(
+          collection(db, 'publicListings', listingId, 'waitlistSubmissions'),
+          { name, location, contact, submittedAt: serverTimestamp() }
+        );
+        form.style.display = 'none';
+        $('notify-why').style.display = 'none';
+        $('notify-success').style.display = 'block';
+      } catch (err) {
+        console.error('Failed to submit', err);
+        $('notify-error').textContent = "Something went wrong sending your message — please try again.";
+        $('notify-error').style.display = 'block';
+        $('notify-submit-btn').disabled = false;
+        $('notify-submit-btn').textContent = 'Notify the Breeder';
+      }
+    });
+  }
+
+  loadListing();
+</script>
+</body>
+</html>
